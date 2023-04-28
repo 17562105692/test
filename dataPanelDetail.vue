@@ -67,114 +67,122 @@
                 </div>
 
             </div>
+            <el-radio-group style="margin-top: 20px;" v-model="eventType">
+                <el-radio-button label="left">普通</el-radio-button>
+                <el-radio-button label="right">平均值</el-radio-button>
+            </el-radio-group>
             <el-button type="primary" style="margin-top:20px" @click="handleAddEvent(true, index)"
                 icon="el-icon-plus">新增事件名</el-button>
         </div>
         <div class="topclass">
             <el-divider content-position="left">全局变量名</el-divider>
-            <div v-for="(item, index) in allFilterVariableList" :key="index" style="margin-bottom:20px">
+            <div v-for="(item, index) in   allFilterVariableList  " :key="index" style="margin-bottom:20px">
                 <el-select filterable @clear="item.searchTermsVariable = ''; item.searchValue = ''" clearable
                     v-model="item.searchVariable" no-data-text="请选择合适的事件" placeholder="请选择变量名">
-                    <el-option v-for="item in eventVariableList" :key="item.id" :label="item.remarks" :value="item.name">
+                    <el-option v-for="  item   in   eventVariableList  " :key=" item.id " :label=" item.remarks "
+                        :value=" item.name ">
                     </el-option>
                 </el-select>
-                <div v-if="item.searchVariable" class="shaiclass">
+                <div v-if=" item.searchVariable " class="shaiclass">
                     <span class="spanclass">的</span>
-                    <el-select clearable v-model="item.searchTermsVariable" placeholder="请选择筛选项">
-                        <el-option v-for="item in searchTermsArray2" :key="item.value" :label="item.label"
-                            :value="item.name">
+                    <el-select clearable v-model=" item.searchTermsVariable " placeholder="请选择筛选项">
+                        <el-option v-for="  item   in   searchTermsArray2  " :key=" item.value " :label=" item.label "
+                            :value=" item.name ">
                         </el-option>
                     </el-select>
                 </div>
-                <div v-if="item.searchVariable" class="shaiclass">
-                    <el-input clearable v-model="item.searchValue" placeholder="请输入筛选值"></el-input>
+                <div v-if=" item.searchVariable " class="shaiclass">
+                    <el-input clearable v-model=" item.searchValue " placeholder="请输入筛选值"></el-input>
                 </div>
-                <el-button type="text" v-if="index != 0" style="margin-left:10px" @click="handleAddFilter(false, index)"
+                <el-button type="text" v-if=" index != 0 " style="margin-left:10px" @click=" handleAddFilter(false, index) "
                     icon="el-icon-close">删除</el-button>
-                <el-button v-if="(index + 1 >=
-                    allFilterVariableList.length)" type="text" style="margin-left:10px"
-                    @click="handleAddFilter(true, index)" icon="el-icon-plus">筛选</el-button>
+                <el-button v-if="
+                    (index + 1 >=
+                        allFilterVariableList.length)
+                " type="text" style="margin-left:10px" @click=" handleAddFilter(true, index) "
+                    icon="el-icon-plus">筛选</el-button>
             </div>
             <el-divider content-position="left">维度</el-divider>
-            <el-select filterable clearable v-model="dimensionList" no-data-text="请选择合适的事件" placeholder="请选择维度">
-                <el-option v-for="item in eventVariableList" :key="item.id" :label="item.remarks" :value="item.name">
+            <el-select filterable clearable v-model=" dimensionList " no-data-text="请选择合适的事件" placeholder="请选择维度">
+                <el-option v-for="  item   in   eventVariableList  " :key=" item.id " :label=" item.remarks "
+                    :value=" item.name ">
                 </el-option>
             </el-select>
 
             <el-divider content-position="left">日期</el-divider>
             <div style="margin-bottom: 20px;">
-                <el-select no-data-text="请选择合适的事件" placeholder="请选择日期类型" v-model="dateInterval" clearable>
-                    <el-option-group v-for="group in optionsTime" :key="group.label" :label="group.label">
-                        <el-option v-for="item in group.options" :key="item.value" :label="item.label"
-                            :value="item.value" />
+                <el-select no-data-text="请选择合适的事件" placeholder="请选择日期类型" v-model=" dateInterval " clearable>
+                    <el-option-group v-for="  group   in   optionsTime  " :key=" group.label " :label=" group.label ">
+                        <el-option v-for="  item   in   group.options  " :key=" item.value " :label=" item.label "
+                            :value=" item.value " />
                     </el-option-group>
                 </el-select>
             </div>
 
-            <el-date-picker v-if="dateInterval == 'staticDay' || dateInterval == 'staticHour'" @change="datePickChange"
-                v-model="timeValue" value-format="YYYY-MM-DD HH:mm:ss" type="daterange" start-placeholder="开始时间"
+            <el-date-picker v-if=" dateInterval == 'staticDay' || dateInterval == 'staticHour' " @change=" datePickChange "
+                v-model=" timeValue " value-format="YYYY-MM-DD HH:mm:ss" type="daterange" start-placeholder="开始时间"
                 end-placeholder="结束时间" />
-            <div v-if="dateInterval == 'dynamicDay'">
-                <span>近</span> <el-input style="width:120px" v-model="timeValue2" placeholder="请输入天数"></el-input> 天
+            <div v-if=" dateInterval == 'dynamicDay' ">
+                <span>近</span> <el-input style="width:120px" v-model=" timeValue2 " placeholder="请输入天数"></el-input> 天
             </div>
-            <div v-if="dateInterval == 'dynamicHour'">
-                近 <el-input style="width:120px" v-model="timeValue2" placeholder="请输入小时数"></el-input> 小时
+            <div v-if=" dateInterval == 'dynamicHour' ">
+                近 <el-input style="width:120px" v-model=" timeValue2 " placeholder="请输入小时数"></el-input> 小时
             </div>
             <div style="margin-top:20px">
-                <div v-if="!pageLoading">
-                    <el-button type="primary" :loading="true" disabled>数据加载中...搜索暂不可用</el-button>
+                <div v-if=" !pageLoading ">
+                    <el-button type="primary" :loading=" true " disabled>数据加载中...搜索暂不可用</el-button>
                 </div>
                 <div v-else>
-                    <el-button type="primary" :loading="loading" @click="renderOptions">{{
+                    <el-button type="primary" :loading=" loading " @click=" renderOptions ">{{
                         loading ? '查询中...' : '立即查询'
-                    }}</el-button>
-                    <el-button v-if="operationType == 'add'" type="success" @click="handleAddPanel">新增面板</el-button>
-                    <el-button v-if="operationType == 'edit'" type="success" @click="handleEditPanel">保存面板</el-button>
-                    <el-button type="warning" @click="handleLastPage" plain>返回到面板列表</el-button>
+                        }}</el-button>
+                    <el-button v-if=" operationType == 'add' " type="success" @click=" handleAddPanel ">新增面板</el-button>
+                    <el-button v-if=" operationType == 'edit' " type="success" @click=" handleEditPanel ">保存面板</el-button>
+                    <el-button type="warning" @click=" handleLastPage " plain>返回到面板列表</el-button>
                 </div>
             </div>
         </div>
         <div class="topclass">
             <div class="colorObj">
-                <el-collapse v-model="activeNames">
-                    <el-collapse-item v-for="(item, index) in eventColorObj" :key="index" :name="index">
+                <el-collapse v-model=" activeNames ">
+                    <el-collapse-item v-for="(  item, index  ) in   eventColorObj  " :key=" index " :name=" index ">
                         <template #title>
                             <div class="letterclass">
                                 {{ letterArray[index] }}
                             </div>
                             {{ item.eventName }}({{ item.chinese }})
                         </template>
-                        <div v-for="(itemes, indexes) in item.variableArray" class="disp" :key="indexes">
-                            <div :style="'background-color:' + itemes.color" class="yuan"></div>
+                        <div v-for="(  itemes, indexes  ) in   item.variableArray  " class="disp" :key=" indexes ">
+                            <div :style=" 'background-color:' + itemes.color " class="yuan"></div>
                             <div>{{ itemes.variableName }}</div>
                         </div>
                     </el-collapse-item>
                 </el-collapse>
             </div>
 
-            <scEcharts ref="echartsRef" height="400px" style="margin:10px 0 30px 0" :option="options"></scEcharts>
+            <scEcharts ref="echartsRef" height="400px" style="margin:10px 0 30px 0" :option=" options "></scEcharts>
 
-            <el-table :data="seriesObj" border :span-method="objectSpanMethod" style="width: 100%; margin-top: 20px">
+            <el-table :data=" seriesObj " border :span-method=" objectSpanMethod " style="width: 100%; margin-top: 20px">
                 <el-table-column align="center" label="事件" width="251">
-                    <template #default="scope">
+                    <template #default=" scope ">
                         <div>{{ scope.row.data.filter(e => e)[0].letter }}.{{
                             scope.row.data.filter(e => e)[0].event
-                        }}({{ scope.row.data.filter(e => e)[0].chinese }})</div>
+                            }}({{ scope.row.data.filter(e => e)[0].chinese }})</div>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" label="属性" width="180">
-                    <template #default="scope">
+                    <template #default=" scope ">
                         <div>{{ Number(scope.row.name) ? Number(scope.row.name).toFixed(2) : (scope.row.name) }}</div>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" label="总和" width="180">
-                    <template #default="scope">
+                    <template #default=" scope ">
                         <div>{{ scope.row.sum }}</div>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" v-for="(item, index) in consecutiveDaysArray" :key="index" :label="item"
-                    width="180">
-                    <template #default="scope">
+                <el-table-column align="center" v-for="(  item, index  ) in   consecutiveDaysArray  " :key=" index "
+                    :label=" item " width="180">
+                    <template #default=" scope ">
                         <div>{{ scope.row.data.find(e => e?.tab == item)?.value }}</div>
                     </template>
                 </el-table-column>
@@ -188,6 +196,7 @@ import scEcharts from '@/components/scEcharts';
 import api from '@/api'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import router from '@/router'
+const eventType = ref('left')
 // 选中的事件名
 // const searchEvent = ref('')
 // 筛选项内容（事件）
@@ -1314,8 +1323,19 @@ const renderOptions = () => {
     })
 
     echartsRef.value.clear()
-    let filterObj = spliceData(allEventList.value)
-
+    let filterObj2 = spliceData(allEventList.value)
+    let filterObj = {}
+    if(eventType.value=='right'){
+        Object.keys(filterObj2).forEach(item=>{
+            if(item=='basicQuery'){
+                filterObj['customQuery'] = filterObj2[item]
+            }else{
+                filterObj[item] = filterObj2[item]
+            }
+        })
+    }else{
+        filterObj = filterObj2
+    }
     if (!filterObj) {
         loading.value = false
         return
@@ -1346,61 +1366,6 @@ const renderOptions = () => {
                 duration: 3000
             })
         })
-    // let res = {
-    //     "clickbuy": {
-    //         "2023-02-03": [
-    //             {
-    //                 "agg": "hover",
-    //                 "count": 2
-    //             }
-    //         ],
-    //         "2023-02-04": [
-    //             {
-    //                 "agg": "button",
-    //                 "count": 6
-    //             },
-    //             {
-    //                 "agg": "hover",
-    //                 "count": 8
-    //             }
-
-    //         ],
-    //         "2023-02-05": [
-
-    //         ],
-    //         "2023-02-06": [
-
-    //         ],
-    //         "2023-02-07": [
-
-    //         ],
-    //         "2023-02-08": [
-
-    //         ],
-    //         "2023-02-09": [
-
-    //         ],
-    //     },
-    //     "ProductDetail": {
-    //         "2023-02-03": [
-    //             {
-    //                 "agg": "button",
-    //                 "count": 12
-    //             },
-    //             {
-    //                 "agg": "hover",
-    //                 "count": 54
-    //             }
-    //         ],
-    //     }
-    // }
-    // let { allArr } = formatEchartsData(res)
-    // let allArr2 = fillDateAndClass(allArr)
-    // options.value.xAxis.data = consecutiveDaysArray.value
-    // options.value.series = getTop20(allArr2);
-    // seriesObj.value = allArr2
-    // console.error(allArr2)
-
 }
 </script>
 <style scoped>
